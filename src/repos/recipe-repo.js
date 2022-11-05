@@ -1,5 +1,6 @@
 const pool = require('../pool');
 const toCamelCase = require('./utils/to-camel-case')
+const nutritionsRecount = require('./utils/nutritions-recount')
 
 class RecipeRepo {
     static async find() {
@@ -13,7 +14,7 @@ class RecipeRepo {
         const instructions = (await pool.query("SELECT step, instruction, photo FROM instructions WHERE recipe_id = $1", [id])).rows;
         const ingredients = (await pool.query("SELECT * FROM recipe_ingredients LEFT JOIN ingredient_nutritions ON recipe_ingredients.ingredient_id = ingredient_nutritions.id WHERE recipe_id = $1", [id])).rows;
         //Create nutrition_recount function!!!
-        return { info: toCamelCase(recipe)[0], tags: toCamelCase(tags), instructions: toCamelCase(instructions), ingredients: toCamelCase(ingredients) };
+        return { info: toCamelCase(recipe)[0], tags: toCamelCase(tags), instructions: toCamelCase(instructions), ingredients: toCamelCase(nutritionsRecount(ingredients)) };
     }
 
     /*

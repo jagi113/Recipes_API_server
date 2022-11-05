@@ -7,15 +7,26 @@ router.get('/recipes', async (req, res) => {
     // Run a query to get all users
     const recipes = await RecipeRepo.find();
 
+    res.set({
+        'Content-Type': 'text/plain',
+        'charset': 'utf-8'
+    });
+
     // Send the result back to the person
     // who made this request
     res.send(recipes);
 });
 
 router.get('/recipes/:id', async (req, res) => {
+    res.set({
+        'Content-Type': 'text/plain',
+        'charset': 'utf-8'
+    });
+
     const { id } = req.params;
     const recipe = await RecipeRepo.findById(id);
     if (recipe) {
+        console.log(recipe)
         res.send(recipe);
     } else {
         res.sendStatus(404);
