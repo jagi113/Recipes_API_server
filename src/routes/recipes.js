@@ -26,7 +26,6 @@ router.get('/recipes/:id', async (req, res) => {
     const { id } = req.params;
     const recipe = await RecipeRepo.findById(id);
     if (recipe) {
-        console.log(recipe)
         res.send(recipe);
     } else {
         res.sendStatus(404);
