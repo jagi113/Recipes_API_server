@@ -19,7 +19,7 @@ const PORT = 2121;
 pool.connect(database)
     .then(() => {
         app().listen(PORT, () => {
-            console.log(`Running on ${PORT}`);
+            console.log(`Running on http://192.168.101.189:${PORT}/recipes`);
         });
     })
     .catch((err) => { console.error(err) });

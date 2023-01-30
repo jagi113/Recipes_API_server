@@ -4,3 +4,4 @@ database.ini
 request.http
 Dockerfile
 .dockerignore
+node_modules
