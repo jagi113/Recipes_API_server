@@ -17,14 +17,14 @@ router.get('/recipes', async (req, res) => {
     res.send(recipes);
 });
 
-router.get('/recipes/:id', async (req, res) => {
+router.get('/recipes/:slug', async (req, res) => {
     res.set({
         'Content-Type': 'text/plain',
         'charset': 'utf-8'
     });
 
-    const { id } = req.params;
-    const recipe = await RecipeRepo.findById(id);
+    const { slug } = req.params;
+    const recipe = await RecipeRepo.findOne({ slug: slug });
     if (recipe) {
         res.send(recipe);
     } else {

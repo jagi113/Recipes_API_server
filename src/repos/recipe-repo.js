@@ -8,13 +8,13 @@ class RecipeRepo {
         return toCamelCase(rows);
     }
 
-    static async findById(id) {
-        const recipe = (await pool.query("SELECT recipes.name, recipes.url, recipes.photo FROM recipes WHERE id = $1;", [id])).rows;
-        const tags = (await pool.query("SELECT tags.tag FROM tags WHERE recipe_id = $1;", [id])).rows;
-        const instructions = (await pool.query("SELECT step, instruction, photo FROM instructions WHERE recipe_id = $1", [id])).rows;
-        const ingredients = (await pool.query("SELECT * FROM recipe_ingredients LEFT JOIN ingredient_nutritions ON recipe_ingredients.ingredient_id = ingredient_nutritions.id WHERE recipe_id = $1", [id])).rows;
+    static async findOne({ slug }) {
+        const recipe = (await pool.query("SELECT recipes.name, recipes.slug, recipes.url, recipes.photo FROM recipes WHERE slug = $1;", [slug])).rows;
+        const tags = (await pool.query("SELECT tags.tag FROM tags WHERE recipe_slug = $1;", [slug])).rows;
+        const instructions = (await pool.query("SELECT step, instruction, photo FROM instructions WHERE recipe_slug = $1", [slug])).rows;
+        const ingredients = (await pool.query("SELECT * FROM recipe_ingredients LEFT JOIN ingredient_nutritions ON recipe_ingredients.ingredient_slug = ingredient_nutritions.slug WHERE recipe_slug = $1", [slug])).rows;
         //Create nutrition_recount function!!!
-        return { info: toCamelCase(recipe)[0], tags: toCamelCase(tags), instructions: toCamelCase(instructions), ingredients: toCamelCase(nutritionsRecount(ingredients)) };
+        return { info: toCamelCase(recipe), tags: toCamelCase(tags), instructions: toCamelCase(instructions), ingredients: toCamelCase(ingredients) };
     }
 
     /*
